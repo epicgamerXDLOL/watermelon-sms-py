@@ -1,5 +1,6 @@
 import socket
 import threading
+
 HEADER = 64
 PORT = 5050
 SERVER = socket.gethostbyname(socket.gethostname())
@@ -11,7 +12,7 @@ server.bind(ADDR)
 
 def handle_client(conn, addr):
     print(f"New Connection: {addr}")
-
+    
     connected = True
     while connected:
         msg_len = conn.recv(HEADER).decode(FORMAT)
@@ -21,9 +22,10 @@ def handle_client(conn, addr):
             
             if msg == DISCONNECT_MESSAGE: 
                 connected = False
-            print(f"[{addr}] {msg}")
+            print(f"{addr}: {msg}")
 
     conn.close()
+    print("\rEnded Session.")
 
 def start():
     server.listen()
