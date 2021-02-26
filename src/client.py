@@ -1,5 +1,7 @@
 import socket
 import threading
+import user
+
 HEADER = 64
 PORT = 5050
 FORMAT = "utf-8"
@@ -18,9 +20,11 @@ def send(msg):
     client.send(send_length)
     client.send(message)
 
-
 running_on_users_end = True
+member = user.User()
+member.signup()
 while running_on_users_end:
+    
     msg_request = input()
     if msg_request != "quit": send(msg_request)
     else: running_on_users_end = False
