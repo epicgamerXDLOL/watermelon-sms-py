@@ -1,6 +1,7 @@
 import socket
 import threading
-import user
+import watermelon
+import tkinter
 
 HEADER = 64
 PORT = 5050
@@ -11,6 +12,12 @@ ADDR = (SERVER, PORT)
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 client.connect(ADDR)
+window = tkinter.Tk()
+window.title(socket.gethostbyname(socket.gethostname()))
+tkinter.Label (window, text="Send a message",bg="black", fg="white") .grid(row=1, column=0)
+
+textentry = tkinter.Entry(window, width=20, bg="white")
+textentry.grid(row=2, column=0, sticky="W")
 
 def send(msg):
     message = msg.encode(FORMAT)
@@ -20,12 +27,10 @@ def send(msg):
     client.send(send_length)
     client.send(message)
 
-running_on_users_end = True
-member = user.User()
-member.signup()
-while running_on_users_end:
-    
-    msg_request = input()
-    if msg_request != "quit": send(msg_request)
-    else: running_on_users_end = False
+
+def tkinter_send():
+    send(textentry.get())
+
+tkinter.Button(window, text="SUBMIT", width=6, command=tkinter_send) .grid(row=3, column=0, sticky="W")
+window.mainloop()
 

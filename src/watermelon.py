@@ -1,11 +1,14 @@
 import json
 import random
+
 def randomString(length:int, numberOfStrings= 1):
 
     string = [''.join([random.choice('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXZY1234567890') for i in range(length)])
              for i in range(numberOfStrings)]
 
     return string
+
+    
 class User:
     def __init__(self, username=None, password=None):
         self.username = username; self.password = password #initializing members

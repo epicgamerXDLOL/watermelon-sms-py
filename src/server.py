@@ -1,5 +1,6 @@
 import socket
 import threading
+import tkinter
 
 HEADER = 64
 PORT = 5050
@@ -37,5 +38,6 @@ def start():
         print(f"active connections: {threading.activeCount() - 1}")
 
 print("server starting...")
+print(socket.gethostbyname(socket.gethostname()))
 start()
 
