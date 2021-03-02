@@ -1,6 +1,7 @@
 import socket
 import threading
 import tkinter
+import json
 
 HEADER = 64
 PORT = 5050
@@ -23,7 +24,9 @@ def handle_client(conn, addr):
             
             if msg == DISCONNECT_MESSAGE: 
                 connected = False
-            print(f"{addr}: {msg}")
+                with open("./data/user_info.json", "r") as f:
+                    j = json.load(f)
+                    print(f"{j[str(addr[0])]}: {msg}")
 
     conn.close()
     print("\rEnded Session.")
