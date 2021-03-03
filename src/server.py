@@ -1,6 +1,9 @@
 import socket
 import threading
 import tkinter
+import pymongo
+from pymongo import MongoClient
+import urllib
 
 HEADER = 64
 PORT = 5050
@@ -10,6 +13,9 @@ FORMAT = "utf-8"
 DISCONNECT_MESSAGE = ".disconnect"
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server.bind(ADDR)
+
+
+
 
 def handle_client(conn, addr):
     print(f"New Connection: {addr}")
@@ -23,7 +29,12 @@ def handle_client(conn, addr):
             
             if msg == DISCONNECT_MESSAGE: 
                 connected = False
-                print(f"{j[str(addr[0])]}: {msg}")
+            url = "mongodb+srv://water:AlwNL@cluster0.xrjyb.mongodb.net/Project0?retryWrites=true&w=majority"
+            cluster = MongoClient(url)
+            db = cluster["user-info"]
+            collection = db[addr[0]]
+            username = collection.find({"username": ""})
+            print('\n'.join(username))
 
     conn.close()
     print("\rEnded Session.")

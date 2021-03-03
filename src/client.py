@@ -5,8 +5,10 @@ import tkinter
 import random
 import pymongo
 from pymongo import MongoClient
+import urllib
+from watermelon import randomString
 
-cluster = MongoClient("mongodb+srv://watermelonSmsUser:2@U9NbWZKCicJE-@cluster0.xrjyb.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
+url = "mongodb+srv://water:AlwNL@cluster0.xrjyb.mongodb.net/Project0?retryWrites=true&w=majority"
 HEADER = 64
 PORT = 5050
 FORMAT = "utf-8"
@@ -16,10 +18,11 @@ ADDR = (SERVER, PORT)
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 client.connect(ADDR)
+cluster = MongoClient(url); db = cluster["user-info"]; collection = db[SERVER]
 
+post = {"username": f"User#{random.randint(1, 999999)}"}
 
-
-
+collection.insert_one(post)
 
 
 window = tkinter.Tk()
