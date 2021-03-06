@@ -15,9 +15,19 @@ server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server.bind(ADDR)
 user_fetched = ""
 
+def send(msg):
+    message = msg.encode(FORMAT)
+    msg_len = len(message)
+    send_length = str(msg_len).encode(FORMAT)
+    send_length += b" " * (HEADER - len(send_length))
+    server.send(send_length)
+    server.send(message)
+
 def getUsernameFromDatabase(address):
     try:
-        url = "mongodb+srv://water:AlwNL@cluster0.xrjyb.mongodb.net/Project0?retryWrites=true&w=majority"
+
+        with open("../private/mongo_link.txt") as f:
+            url = f.read()
         cluster = MongoClient(url)
         db = cluster["user-info"]
         collection = db[address]
