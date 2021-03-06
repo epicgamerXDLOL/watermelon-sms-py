@@ -6,7 +6,6 @@ import random
 import pymongo
 from pymongo import MongoClient
 import urllib
-from watermelon import randomString
 
 url = "mongodb+srv://water:AlwNL@cluster0.xrjyb.mongodb.net/Project0?retryWrites=true&w=majority"
 HEADER = 64
@@ -16,10 +15,10 @@ DISCONNECT_MESSAGE = ".disconnect"
 SERVER = socket.gethostbyname(socket.gethostname())
 ADDR = (SERVER, PORT)
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
-client.connect(ADDR)
 cluster = MongoClient(url); db = cluster["user-info"]; collection = db[SERVER]
+client.connect(ADDR)
 
+if socket.gethostbyname(socket.gethostnme()) in cluster.find("")
 post = {"username": f"User#{random.randint(1, 999999)}"}
 
 collection.insert_one(post)

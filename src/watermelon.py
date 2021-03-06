@@ -1,32 +1,42 @@
-import json
+import pymongo
+import socket
+import threading
 import random
+from pymongo import MongoClient
 
-def randomString(length:int, numberOfStrings= 1):
+MONGO_LINK = "../private/mongo_link.txt"
 
-    string = [''.join([random.choice('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXZY1234567890') for i in range(length)])
-             for i in range(numberOfStrings)]
 
-    return string
+
+class User:
+
+    def __init__(self, ip_address:str, username=None, password=None, _id=None):
+
+        self.username = username
+        self.password = password
+        self._id = _id
+        self.ip_address = ip_address
 
     
-class User:
-    def __init__(self, username=None, password=None):
-        self.username = username; self.password = password #initializing members
-        with open("../data/user_info.json", "r") as f: #opening json file with the user data
-            user_json = json.load(f)
-        unique_id = False
-        while not unique_id: 
-            self.id = randomString(length=10)[0]
-            if self.id not in user_json.keys(): #just in the very slim chance that the randomly generated string has already been genereated previously
-                unique_id = True
+    def sign_up(self, username, password):
 
-    def signup(self):
-        with open("../data/user_info.json", "r") as f:
-            user_json = json.load(f)
+        cred_post = {}
+        with open(MONGO_LINK, "r") as f:
+            url = f.read()
 
-        username = input("Username:\n")
-        password = input("Password:\n")
-        self.username, self.password = username, password
-        user_json[self.id] = {"username":username, "password":password}
-        with open("../data/user_info.json", "w") as f: #writing the username and password to the json file
-            json.dump(user_json, f, indent=4)
+        obj_id = random.randint(1, 1000000000)
+
+        cluster = MongoClient(url)
+        db = cluster["users"]
+        coll = db["user-credentials"]
+        found_username = coll.find({"username": username})
+
+        if not found_username:
+            cred_post["_id"] = obj_id
+            cred_post["username"] = username
+            cred_post["password"] = password
+            self.username = username; self.password = password; self._id = obj_id
+            return True
+        
+        else:
+            return False
