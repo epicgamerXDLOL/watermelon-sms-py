@@ -1,1 +1,0 @@
-mongodb+srv://water:AlwNL@cluster0.xrjyb.mongodb.net/Project0?retryWrites=true&w=majority
